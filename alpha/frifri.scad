@@ -6,11 +6,12 @@ roundout = 0.05;
 electronics_y = -18;
 motor_y = -1.5;
 keep_centered = 0;
+rod_length = 100*mm;
 
 module objet_complet() {
   difference() {
     // The Wings3D model uses centimeters as units while OpenSCAD uses millimeters.
-    // %
+     %
     scale(v=[cm,cm,cm]) import("frifri.stl");
 
     // The cylinder must be at least 24.5mm into the object for the motor to fit in.
@@ -18,21 +19,29 @@ module objet_complet() {
     // shape/resolution of printing.
     // #
     union() {
-      // Hole for the motor.
-      translate([keep_centered,motor_y,1.9*cm])
-      rotate([90,0,0])
-      // Cylinder is created at origin towards +Z.
-      // Note: diameter (specs) is 7mm.
-      cylinder(h = 24.5*mm*2.0, r = (7/2+0.05)*mm, $fn=100);
 
-      // Two transversal holes (diam=1.2mm) for the wires that connect to the motor.
-      translate([+0.9,50,15.2])
+      // Hole for the 5mm rod that holds the pieces together.
+      translate([3.1,rod_length/2,19])
       rotate([90,0,0])
-      cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
-      translate([-0.9,50,15.2])
-      rotate([90,0,0])
-      cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
+      cylinder(h = rod_length, r = (5/2+0.05)*mm, $fn=100);
 
+      translate([-3.0,0,0])
+      union() {
+        // Hole for the motor.
+        translate([keep_centered,motor_y,1.9*cm])
+        rotate([90,0,0])
+        // Cylinder is created at origin towards +Z.
+        // Note: diameter (specs) is 7mm.
+        cylinder(h = 24.5*mm*2.0, r = (7/2+0.05)*mm, $fn=100);
+
+        // Two transversal holes (diam=1.2mm) for the wires that connect to the motor.
+        translate([+0.9,50,15.2])
+        rotate([90,0,0])
+        cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
+        translate([-0.9,50,15.2])
+        rotate([90,0,0])
+        cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
+      }
       // Hole for electronics.
       translate([keep_centered,electronics_y+30,10*mm])
       scale([17.1,60,6])
@@ -105,8 +114,8 @@ module piece_2() {
       }
       cut_b(roundout);
     }
-    ergot(motor_y,2-roundout,-4.7);
-    ergot(motor_y,2-roundout,+4.7);
+    // ergot(motor_y,2-roundout,-4.7);
+    // ergot(motor_y,2-roundout,+4.7);
   }
 }
 
@@ -115,8 +124,8 @@ module piece_3() {
   difference() {
     objet_complet();
     cut_b(-roundout);
-    ergot(motor_y,2+roundout,-4.7);
-    ergot(motor_y,2+roundout,+4.7);
+    // ergot(motor_y,2+roundout,-4.7);
+    // ergot(motor_y,2+roundout,+4.7);
   }
   // cut(34.95,0); }
 }
