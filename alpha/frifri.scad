@@ -35,7 +35,7 @@ module objet_complet() {
 
       // Hole for electronics.
       translate([keep_centered,electronics_y+30,10*mm])
-      scale([17,60,6])
+      scale([17.1,60,6])
       cube (size = 1, center = true);
 
       // Connections between the electronics hole and the motor wires hole.
@@ -135,3 +135,6 @@ piece_2();
 translate([25,10,-motor_y-roundout])
 rotate([90,0,0])
 piece_3();
+
+
+// Arthur dit: remplacer les ergots par une tige filetée de 5mm sur toute la longueur.
