@@ -26,7 +26,7 @@ module objet_complet() {
       // Hole for the 5mm rod that holds the pieces together.
       translate([3.1,rod_length/2,17])
       rotate([90,0,0])
-      cylinder(h = rod_length, r = (5/2+0.05)*mm, $fn=100);
+      cylinder(h = rod_length, r = (4/2+0.05)*mm, $fn=100);
 
       union() {
         // Hole for the motor.
@@ -38,11 +38,8 @@ module objet_complet() {
         // bending radius of wires, which amounts to ~ total 27.7mm.
         cylinder(h = 24.5*mm*2.0, r = (7/2+0.05)*mm, $fn=100);
 
-        // Two transversal holes (diam=1.2mm) for the wires that connect to the motor.
-        translate([motor_x+0.9,50,15.2])
-        rotate([90,0,0])
-        cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
-        translate([motor_x-0.9,50,15.2])
+        // Transversal hole (diam=2.0mm) for the wires that connect to the motor.
+        translate([motor_x,50,10+6/2-0.6])
         rotate([90,0,0])
         cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
       }
