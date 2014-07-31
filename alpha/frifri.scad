@@ -4,6 +4,9 @@ mm = 1;
 cm = 10;
 roundout = 0.05;
 
+// Padding to account for the printer's inexactitude.
+radius_padding = 0.5*mm;
+
 electronics_y = -18;
 motor_x = -3.0;
 motor_y = -1.5;
@@ -24,9 +27,9 @@ module objet_complet() {
     union() {
 
       // Hole for the 5mm rod that holds the pieces together.
-      translate([3.1,rod_length/2,17])
+      translate([5.5,rod_length/2-0,17])
       rotate([90,0,0])
-      cylinder(h = rod_length, r = (4/2+0.05)*mm, $fn=100);
+      cylinder(h = rod_length, r = ((4+radius_padding)/2+0.05)*mm, $fn=100);
 
       union() {
         // Hole for the motor.
@@ -36,31 +39,27 @@ module objet_complet() {
         // Note: diameter (specs) is 7mm.
         // Note: actual length (24.55) is within tolerances, however must account for
         // bending radius of wires, which amounts to ~ total 27.7mm.
-        cylinder(h = 24.5*mm*2.0, r = (7/2+0.05)*mm, $fn=100);
+        cylinder(h = 24.5*mm*2.0, r = ((7+radius_padding)/2+0.05)*mm, $fn=100);
 
         // Transversal hole (diam=2.0mm) for the wires that connect to the motor.
         translate([motor_x,50,10+6/2-0.6])
         rotate([90,0,0])
-        cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
+        cylinder(h = 100*mm, r = (2+radius_padding)*mm, $fn=100);
       }
 
       // Hole for electronics.
-      translate([keep_centered,electronics_y+30,10*mm])
-      scale([17.1,60,6])
+      translate([keep_centered,electronics_y+70/2,10*mm])
+      scale([17.1+radius_padding,70,6+radius_padding])
       cube (size = 1, center = true);
 
-      // Connections between the electronics hole and the motor wires hole.
-      translate([keep_centered,41,12.0])
-      cylinder(h = 4*mm, r = (0.6*2+0.9/2)*mm, $fn=100);
-
       // Ringy hole to put a security "pull" wire.
-      translate([keep_centered,38,18])
-      rotate([0,0,0])
+      translate([-3,41,20])
+      rotate([30,-10,0])
       union () {
         // Torus
         rotate_extrude(convexity = 10, $fn = 100)
         translate([5, 0, 0])
-        circle(r = 1, $fn = 100);
+        circle(r = (1+radius_padding), $fn = 100);
 
         rotate([0,0,180])
         translate([-4.0,4.5,0])
@@ -82,7 +81,7 @@ module objet_complet() {
 
 // Object printout
 // Stéphane@RobotSeed a recommandé de couper en deux et de prévoir des emboîtements.
-cut_size = 60;
+cut_size = 90;
 module cut(position,offset) {
   translate([keep_centered,position-cut_size/2-offset,cut_size/2-roundout])
   scale([cut_size,cut_size,cut_size])
@@ -116,8 +115,6 @@ module piece_2() {
       }
       cut_b(roundout);
     }
-    // ergot(motor_y,2-roundout,-4.7);
-    // ergot(motor_y,2-roundout,+4.7);
   }
 }
 
@@ -126,8 +123,6 @@ module piece_3() {
   difference() {
     objet_complet();
     cut_b(-roundout);
-    // ergot(motor_y,2+roundout,-4.7);
-    // ergot(motor_y,2+roundout,+4.7);
   }
   // cut(34.95,0); }
 }
@@ -143,7 +138,7 @@ rotate([90,0,0])
 piece_2();
 
 // Put piece 3 onto the ground.
-translate([25,10,-motor_y-roundout])
+translate([30,15,-motor_y-roundout])
 rotate([90,0,0])
 piece_3();
 

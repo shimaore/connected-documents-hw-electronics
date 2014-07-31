@@ -19,7 +19,7 @@ module contenu() {
     // 5mm rod that holds the pieces together.
     translate([3.1,rod_length/2,17])
     rotate([90,0,0])
-    cylinder(h = rod_length, r = (5/2+0.05)*mm, $fn=100);
+    cylinder(h = rod_length, r = (4.5/2+0.05)*mm, $fn=100);
 
     // motor.
     translate([motor_x,motor_y,1.9*cm])
