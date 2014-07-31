@@ -1,17 +1,20 @@
+// (c) 2014, Stéphane Alnet
 
 mm = 1;
 cm = 10;
 roundout = 0.05;
 
 electronics_y = -18;
+motor_x = -3.0;
 motor_y = -1.5;
 keep_centered = 0;
+// Ideally the rod-length should be 51mm, but in that case the model needs pilars.
 rod_length = 100*mm;
 
 module objet_complet() {
   difference() {
     // The Wings3D model uses centimeters as units while OpenSCAD uses millimeters.
-     %
+    // %
     scale(v=[cm,cm,cm]) import("frifri.stl");
 
     // The cylinder must be at least 24.5mm into the object for the motor to fit in.
@@ -21,27 +24,29 @@ module objet_complet() {
     union() {
 
       // Hole for the 5mm rod that holds the pieces together.
-      translate([3.1,rod_length/2,19])
+      translate([3.1,rod_length/2,17])
       rotate([90,0,0])
       cylinder(h = rod_length, r = (5/2+0.05)*mm, $fn=100);
 
-      translate([-3.0,0,0])
       union() {
         // Hole for the motor.
-        translate([keep_centered,motor_y,1.9*cm])
+        translate([motor_x,motor_y,1.9*cm])
         rotate([90,0,0])
         // Cylinder is created at origin towards +Z.
         // Note: diameter (specs) is 7mm.
+        // Note: actual length (24.55) is within tolerances, however must account for
+        // bending radius of wires, which amounts to ~ total 27.7mm.
         cylinder(h = 24.5*mm*2.0, r = (7/2+0.05)*mm, $fn=100);
 
         // Two transversal holes (diam=1.2mm) for the wires that connect to the motor.
-        translate([+0.9,50,15.2])
+        translate([motor_x+0.9,50,15.2])
         rotate([90,0,0])
         cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
-        translate([-0.9,50,15.2])
+        translate([motor_x-0.9,50,15.2])
         rotate([90,0,0])
         cylinder(h = 100*mm, r = 0.6*mm, $fn=100);
       }
+
       // Hole for electronics.
       translate([keep_centered,electronics_y+30,10*mm])
       scale([17.1,60,6])
