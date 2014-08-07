@@ -4,8 +4,8 @@ mm = 1;
 cm = 10;
 roundout = 0.05;
 
-// Padding to account for the printer's inexactitude.
-radius_padding = 0.5*mm;
+// Padding to account for the printer's inaccuracy.
+radius_padding = 0.75*mm;
 
 electronics_y = -18;
 motor_x = -3.0;
@@ -126,21 +126,4 @@ module piece_3() {
   }
   // cut(34.95,0); }
 }
-
-// Put piece 1 onto the ground.
-translate([0,0,electronics_y-roundout])
-rotate([-90,0,0])
-piece_1();
-
-// Put piece 2 onto the ground.
-translate([0,0,-electronics_y-roundout])
-rotate([90,0,0])
-piece_2();
-
-// Put piece 3 onto the ground.
-translate([30,15,-motor_y-roundout])
-rotate([90,0,0])
-piece_3();
-
-
 // Arthur dit: remplacer les ergots par une tige filetée de 5mm sur toute la longueur.

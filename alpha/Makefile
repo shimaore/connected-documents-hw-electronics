@@ -1,6 +1,6 @@
-all: frifri-scad.gcode
+all: part1.gcode part2.gcode part3.gcode
 
-SLIC3R=--load ~/Desktop/Slic3r-ABS.ini --solid-infill-every-layers 1 --support-material
+SLIC3R=--load ~/Desktop/new-abs/config_ABS300_20140706.ini --solid-infill-every-layers 1 --support-material
 
 %.gcode: %.stl
 	slic3r ${SLIC3R} -o $@ $<
@@ -8,7 +8,7 @@ SLIC3R=--load ~/Desktop/Slic3r-ABS.ini --solid-infill-every-layers 1 --support-m
 %.svg: %.stl
 	slic3r ${SLIC3R} --export-svg $<
 
-frifri-scad.stl: frifri.scad frifri.stl
+%.stl: %.scad new-frifri.stl
 	openscad -o $@ $<
 
 frifri-enveloppe.stl: frifri-enveloppe.scad
