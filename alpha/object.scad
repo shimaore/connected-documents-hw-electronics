@@ -18,7 +18,7 @@ module objet_complet() {
   difference() {
     // The Wings3D model uses centimeters as units while OpenSCAD uses millimeters.
     // %
-    scale(v=[cm,cm,cm]) import("new-frifri.stl");
+    scale(v=[cm,cm,cm]) import("object.stl");
 
     // The cylinder must be at least 24.5mm into the object for the motor to fit in.
     // Also set the diameter to slightly larger than needed to account for 

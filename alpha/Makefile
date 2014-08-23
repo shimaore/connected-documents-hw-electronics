@@ -8,14 +8,8 @@ SLIC3R=--load ~/Desktop/new-abs/config_ABS300_20140706.ini --solid-infill-every-
 %.svg: %.stl
 	slic3r ${SLIC3R} --export-svg $<
 
-%.stl: %.scad new-frifri.stl
+%.stl: %.scad object.stl
 	openscad -o $@ $<
-
-frifri-enveloppe.stl: frifri-enveloppe.scad
-	openscad --render -o tmp-$@ $<
-	# Cleanup the .STL file or Wings3D import.
-	admesh -a $@ tmp-$@
-	rm tmp-$@
 
 clean:
 	rm *.3ds *.mtl *.obj *.stl *.gcode *.svg
